@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StajEvrakSistemi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+06c14b5d043f855154ccd7d520f3ee52a3250301")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a042d843b562d3dc57c963bf1c65ced42d116e6f")]
 [assembly: System.Reflection.AssemblyProductAttribute("StajEvrakSistemi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StajEvrakSistemi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

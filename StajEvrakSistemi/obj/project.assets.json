@@ -1859,6 +1859,9 @@
         }
       },
       "warningProperties": {
+        "noWarn": [
+          "NU1903"
+        ],
         "warnAsError": [
           "NU1605"
         ]
@@ -2348,17 +2351,5 @@
         }
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1903",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "'SQLitePCLRaw.lib.e_sqlite3' 2.1.6 paketinde önem derecesi yüksek olan bilinen bir https://github.com/advisories/GHSA-2m69-gcr7-jv3q güvenlik açığı var",
-      "libraryId": "SQLitePCLRaw.lib.e_sqlite3",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    }
-  ]
+  }
 }
