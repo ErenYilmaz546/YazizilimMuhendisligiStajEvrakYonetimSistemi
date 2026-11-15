@@ -2,39 +2,142 @@
     ViewData["Title"] = "Sisteme Giriş";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-header bg-dark text-white text-center">
-                    <h4>Staj Evrak Yönetim Sistemi</h4>
+<div class="row justify-content-center align-items-center my-4">
+    <div class="col-md-7 col-lg-5">
+        <div class="card card-kou">
+            <div class="card-header-kou text-center py-4">
+                <div class="mb-2">
+                    <img src="~/images/kou-logo.png" alt="Kocaeli Üniversitesi" width="84" height="84" class="bg-white rounded-circle p-1 shadow" />
                 </div>
-                <div class="card-body p-4">
-                    @if (ViewBag.Error != null)
-                    {
-                        <div class="alert alert-danger">@ViewBag.Error</div>
-                    }
+                <h4 class="mb-1">Kocaeli Üniversitesi</h4>
+                <small class="opacity-75">Öğrenci Staj Evrak Yönetim Sistemi</small>
+            </div>
 
-                    <form asp-controller="Account" asp-action="Login" method="post">
-                        <div class="mb-3">
-                            <label class="form-label">Kurumsal E-Posta</label>
-                            <input type="email" name="email" class="form-control" placeholder="ornek@kocaeli.edu.tr" required />
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Şifre</label>
-                            <input type="password" name="password" class="form-control" required />
-                        </div>
-                        <button type="submit" class="btn btn-success w-100">Giriş Yap</button>
-                    </form>
+            <div class="card-body p-4 p-md-5 bg-white">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <div>@ViewBag.Error</div>
+                    </div>
+                }
+                @if (TempData["RegisterError"] != null)
+                {
+                    <div class="alert alert-danger d-flex align-items-center gap-2">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <div>@TempData["RegisterError"]</div>
+                    </div>
+                }
+                @if (TempData["RegisterSuccess"] != null)
+                {
+                    <div class="alert alert-success d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill"></i>
+                        <div>@TempData["RegisterSuccess"]</div>
+                    </div>
+                }
 
-                    <hr />
-                    <div class="small text-muted">
-                        <strong>Test Hesapları:</strong><br />
-                        Öğrenci: <code>ogrenci@kocaeli.edu.tr</code> | Şifre: <code>123456</code><br />
-                        Komisyon (Admin): <code>admin@kocaeli.edu.tr</code> | Şifre: <code>admin123</code>
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Kurumsal E-Posta</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-envelope text-success"></i></span>
+                            <input type="email" id="emailInput" name="email" class="form-control" placeholder="kullanici@kocaeli.edu.tr" required />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Şifre</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-lock text-success"></i></span>
+                            <input type="password" id="passwordInput" name="password" class="form-control" placeholder="Şifrenizi giriniz" required />
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-kou w-100 py-2 fs-6">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Giriş Yap
+                    </button>
+                </form>
+
+                <div class="d-grid mt-3">
+                    <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#registerCollapse">
+                        <i class="bi bi-person-plus-fill me-1"></i> Yeni Öğrenci Kaydı
+                    </button>
+                </div>
+
+                <div class="collapse mt-3" id="registerCollapse">
+                    <div class="card card-body bg-light border-success">
+                        <h6 class="fw-bold text-success mb-3"><i class="bi bi-pencil-square me-1"></i>Öğrenci Kayıt Formu</h6>
+                        <form asp-controller="Account" asp-action="Register" method="post">
+                            <div class="mb-2">
+                                <label class="form-label small fw-semibold mb-1">Ad Soyad</label>
+                                <input type="text" name="adSoyad" class="form-control form-control-sm" placeholder="Adınız ve soyadınız" required />
+                            </div>
+                            <div class="row g-2 mb-2">
+                                <div class="col-6">
+                                    <label class="form-label small fw-semibold mb-1">Öğrenci Numarası</label>
+                                    <input type="text" name="ogrenciNo" class="form-control form-control-sm" placeholder="Öğrenci numaranız" required />
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label small fw-semibold mb-1">T.C. Kimlik Numarası</label>
+                                    <input type="text" name="tcKimlikNo" maxlength="11" class="form-control form-control-sm" placeholder="11 haneli T.C. kimlik no" required />
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small fw-semibold mb-1">Bölüm</label>
+                                <input type="text" name="bolum" class="form-control form-control-sm" placeholder="Kayıtlı olduğunuz bölüm" required />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small fw-semibold mb-1">İkametgah Adresi</label>
+                                <input type="text" name="ikametgah" class="form-control form-control-sm" placeholder="Mahalle, ilçe ve il bilgisi" required />
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small fw-semibold mb-1">Sağlık Güvencesi</label>
+                                <select name="saglikStatusu" class="form-select form-select-sm">
+                                    <option value="Aileden (SGK)">Aileden (SGK)</option>
+                                    <option value="Genel Sağlık Sigortası (GSS)">Genel Sağlık Sigortası (GSS)</option>
+                                    <option value="Kendi Üzerinden">Kendi Üzerinden</option>
+                                </select>
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label small fw-semibold mb-1">Kurumsal E-Posta</label>
+                                <input type="email" name="email" class="form-control form-control-sm" placeholder="kullanici@kocaeli.edu.tr" required />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-semibold mb-1">Şifre</label>
+                                <input type="password" name="password" class="form-control form-control-sm" placeholder="Şifrenizi belirleyiniz" required />
+                            </div>
+                            <button type="submit" class="btn btn-kou btn-sm w-100">
+                                <i class="bi bi-check-circle me-1"></i> Kaydı Tamamla
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <hr class="my-4" />
+
+                <div class="bg-light p-3 rounded-3 border">
+                    <div class="small fw-bold text-muted mb-2">
+                        <i class="bi bi-person-check text-success"></i> Hazır Test Hesapları:
+                    </div>
+                    <div class="d-grid gap-2 d-sm-flex">
+                        <button type="button" class="btn btn-outline-success btn-sm flex-fill"
+                                onclick="fillDemo('erenyilmaz@kocaeli.edu.tr', '123456')">
+                            <i class="bi bi-person-badge me-1"></i> Öğrenci Girişi
+                        </button>
+                        <button type="button" class="btn btn-outline-dark btn-sm flex-fill"
+                                onclick="fillDemo('admin@kocaeli.edu.tr', 'admin123')">
+                            <i class="bi bi-person-gear me-1"></i> Komisyon Girişi
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function fillDemo(email, pass) {
+        document.getElementById('emailInput').value = email;
+        document.getElementById('passwordInput').value = pass;
+    }
+</script>

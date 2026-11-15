@@ -34,7 +34,6 @@ C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSist
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\obj\Debug\net10.0\scopedcss\bundle\StajEvrakSistemi.styles.css
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\obj\Debug\net10.0\scopedcss\projectbundle\StajEvrakSistemi.bundle.scp.css
-C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\obj\Debug\net10.0\compressed\um2bbppb9e-{0}-b9sayid5wm-b9sayid5wm.gz
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\obj\Debug\net10.0\compressed\ptxdns2cty-{0}-61n19gt1b8-61n19gt1b8.gz
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\obj\Debug\net10.0\compressed\mmzjyb6uv1-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\obj\Debug\net10.0\compressed\h3h11ozclo-{0}-bqjiyaj88i-bqjiyaj88i.gz
@@ -204,3 +203,4 @@ C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSist
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\bin\Debug\net10.0\runtimes\win-arm64\native\e_sqlite3.dll
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\bin\Debug\net10.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\bin\Debug\net10.0\runtimes\win-x86\native\e_sqlite3.dll
+C:\Users\eyilm\OneDrive\Masaüstü\StajEvrakYönetimSistemi(proje)\StajEvrakSistemi\obj\Debug\net10.0\compressed\um2bbppb9e-{0}-3e3nep8d52-3e3nep8d52.gz

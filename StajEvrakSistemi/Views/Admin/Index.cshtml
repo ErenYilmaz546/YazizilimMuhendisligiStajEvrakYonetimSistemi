@@ -1,48 +1,104 @@
 @model List<StajYonetimSistemi.Models.InternshipDocument>
 @{
     ViewData["Title"] = "Komisyon (Admin) Paneli";
+    var toplam = Model.Count;
+    var onaylanan = Model.Count(d => d.Status.ToString() == "Onaylandi");
+    var bekleyen = Model.Count(d => d.Status.ToString() == "Beklemede");
+    var reddedilen = Model.Count(d => d.Status.ToString() == "Reddedildi");
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3>Staj Komisyonu Yönetim Paneli</h3>
-        <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger btn-sm">Çıkış Yap</a>
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-2 border-bottom">
+    <div>
+        <h3 class="fw-bold text-dark mb-0">
+            <i class="bi bi-shield-lock text-success me-2"></i>Staj Komisyonu Yönetim Paneli
+        </h3>
+        <small class="text-muted">Öğrenci başvurularını inceleyin, belgeleri görüntüleyin ve komisyon kararını güncelleyin.</small>
     </div>
+    <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger btn-sm">
+        <i class="bi bi-box-arrow-right me-1"></i> Güvenli Çıkış
+    </a>
+</div>
 
-    <div class="card shadow-sm">
-        <div class="card-header bg-dark text-white">Yüklenen Tüm Staj Evrakları</div>
-        <div class="card-body">
-            <table class="table table-bordered table-hover">
-                <thead class="table-secondary">
+<!-- Özet İstatistik Kartları -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card stat-card shadow-sm bg-white border-start border-4 border-dark p-3">
+            <div class="small text-muted fw-semibold">Toplam Başvuru</div>
+            <div class="fs-3 fw-bold text-dark">@toplam</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card stat-card shadow-sm bg-white border-start border-4 border-success p-3">
+            <div class="small text-muted fw-semibold">Onaylanan</div>
+            <div class="fs-3 fw-bold text-success">@onaylanan</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card stat-card shadow-sm bg-white border-start border-4 border-warning p-3">
+            <div class="small text-muted fw-semibold">Beklemede</div>
+            <div class="fs-3 fw-bold text-warning">@bekleyen</div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card stat-card shadow-sm bg-white border-start border-4 border-danger p-3">
+            <div class="small text-muted fw-semibold">Reddedilen</div>
+            <div class="fs-3 fw-bold text-danger">@reddedilen</div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-kou">
+    <div class="card-header-kou d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span><i class="bi bi-table me-2"></i>Yüklenen Tüm Staj Evrakları</span>
+        <input type="text" id="searchInput" onkeyup="filterTable()" class="form-control form-control-sm w-auto" placeholder="Öğrenci e-posta veya dosya ara..." />
+    </div>
+    <div class="card-body bg-white p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="docsTable">
+                <thead class="table-light">
                     <tr>
-                        <th>ID</th>
+                        <th class="ps-3">#</th>
                         <th>Öğrenci E-Posta</th>
-                        <th>Dosya Adı</th>
+                        <th>Belge</th>
                         <th>Staj Tarihleri</th>
-                        <th>Teslim Tarihi</th>
-                        <th>Mevcut Durum</th>
-                        <th>Komisyon Kararı</th>
+                        <th>Teslim</th>
+                        <th>Durum</th>
+                        <th class="text-end pe-3">Komisyon Kararı</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center text-muted py-4">Sistemde henüz kayıtlı staj başvurusu bulunmuyor.</td>
+                        </tr>
+                    }
                     @foreach (var doc in Model)
                     {
                         <tr>
-                            <td>@doc.Id</td>
+                            <td class="ps-3 fw-bold">@doc.Id</td>
                             <td>@doc.StudentEmail</td>
-                            <td>@doc.FilePath</td>
+                            <td>
+                                <a href="~/uploads/@doc.FilePath" target="_blank" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-eye me-1"></i>@doc.FilePath
+                                </a>
+                            </td>
                             <td>@doc.StartDate.ToShortDateString() - @doc.EndDate.ToShortDateString()</td>
                             <td>@doc.SubmissionDate.ToShortDateString()</td>
                             <td>
-                                <span class="badge @(doc.Status.ToString() == "Onaylandi" ? "bg-success" : doc.Status.ToString() == "Reddedildi" ? "bg-danger" : "bg-warning")">
+                                <span class="badge rounded-pill px-3 py-2 @(doc.Status.ToString() == "Onaylandi" ? "bg-success" : doc.Status.ToString() == "Reddedildi" ? "bg-danger" : "bg-warning text-dark")">
                                     @doc.Status
                                 </span>
                             </td>
-                            <td>
-                                <form asp-controller="Admin" asp-action="UpdateStatus" method="post" class="d-inline">
+                            <td class="text-end pe-3">
+                                <form asp-controller="Admin" asp-action="UpdateStatus" method="post" class="d-inline-flex gap-1">
                                     <input type="hidden" name="id" value="@doc.Id" />
-                                    <button type="submit" name="status" value="Onaylandi" class="btn btn-success btn-sm">Onayla</button>
-                                    <button type="submit" name="status" value="Reddedildi" class="btn btn-danger btn-sm">Reddet</button>
+                                    <button type="submit" name="status" value="Onaylandi" class="btn btn-success btn-sm">
+                                        <i class="bi bi-check-lg"></i> Onayla
+                                    </button>
+                                    <button type="submit" name="status" value="Reddedildi" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-x-lg"></i> Reddet
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -52,3 +108,13 @@
         </div>
     </div>
 </div>
+
+<script>
+    function filterTable() {
+        const query = document.getElementById("searchInput").value.toLowerCase();
+        const rows = document.querySelectorAll("#docsTable tbody tr");
+        rows.forEach(row => {
+            row.style.display = row.innerText.toLowerCase().includes(query) ? "" : "none";
+        });
+    }
+</script>

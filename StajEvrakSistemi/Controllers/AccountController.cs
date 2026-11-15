@@ -22,9 +22,9 @@ namespace StajYonetimSistemi.Controllers
             {
                 var defaultStudent = new Student
                 {
-                    Email = "ogrenci@kocaeli.edu.tr",
+                    Email = "erenyilmaz@kocaeli.edu.tr",
                     PasswordHash = "123456",
-                    NameSurname = "Örnek Öğrenci",
+                    NameSurname = "Eren Yılmaz",
                     TcKimlikNo = "12345678902",
                     FailedLoginAttempts = 0
                 };
@@ -44,7 +44,7 @@ namespace StajYonetimSistemi.Controllers
                 {
                     _context.StudentDatasets.Add(new StudentDataset
                     {
-                        AdSoyad = "Örnek Öğrenci",
+                        AdSoyad = "Eren Yılmaz",
                         TcKimlikNo = "12345678902",
                         Uyruk = "TC",
                         OgrenciNo = "220201001",
@@ -53,7 +53,7 @@ namespace StajYonetimSistemi.Controllers
                         Bolum = "Yazılım Mühendisliği",
                         TeslimEttigiYil = "2026",
                         DahaOnceYapilanStajGunSayisi = 0,
-                        Eposta = "ogrenci@kocaeli.edu.tr",
+                        Eposta = "erenyilmaz@kocaeli.edu.tr",
                         Telefon = "05551234567",
                         SaglikYardimiStatusu = "Aileden (SGK)"
                     });
@@ -134,5 +134,48 @@ namespace StajYonetimSistemi.Controllers
             HttpContext.Session.Clear();
             return RedirectToAction("Login");
         }
+        [HttpPost]
+        public IActionResult Register(string adSoyad, string ogrenciNo, string tcKimlikNo, string bolum, string ikametgah, string saglikStatusu, string email, string password)
+        {
+            if (_context.Users.Any(u => u.Email == email))
+            {
+                TempData["RegisterError"] = "Bu e-posta adresi zaten sistemde kayıtlı!";
+                return RedirectToAction("Login");
+            }
+
+            // 1. Yeni Öğrenci Kullanıcısı (User -> Student) oluştur
+            var newStudent = new Student
+            {
+                Email = email,
+                PasswordHash = password,
+                NameSurname = adSoyad,
+                TcKimlikNo = tcKimlikNo,
+                FailedLoginAttempts = 0
+            };
+            _context.Students.Add(newStudent);
+
+            // 2. Evrak doğrulama sistemi için StudentDataset kaydını da otomatik oluştur
+            var newDataset = new StudentDataset
+            {
+                AdSoyad = adSoyad,
+                TcKimlikNo = tcKimlikNo,
+                Uyruk = "TC",
+                OgrenciNo = ogrenciNo,
+                DogumTarihi = new DateTime(2004, 1, 1),
+                IkametgahAdresi = ikametgah,
+                Bolum = bolum,
+                TeslimEttigiYil = "2026",
+                DahaOnceYapilanStajGunSayisi = 0,
+                Eposta = email,
+                Telefon = "05550000000",
+                SaglikYardimiStatusu = saglikStatusu
+            };
+            _context.StudentDatasets.Add(newDataset);
+            _context.SaveChanges();
+
+            TempData["RegisterSuccess"] = "Öğrenci kaydınız başarıyla oluşturuldu! Şimdi giriş yapabilirsiniz.";
+            return RedirectToAction("Login");
+          
+       }
     }
 }

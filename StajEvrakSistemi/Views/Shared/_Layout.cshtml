@@ -3,42 +3,55 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Staj Evrak Yönetim Sistemi</title>
+    <title>@ViewData["Title"] - KOU Staj Evrak Sistemi</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark navbar-kou shadow-sm mb-4">
             <div class="container">
-                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">Staj Evrak Yönetim Sistemi</a>
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/kou-logo.png" alt="KOU Logo" width="40" height="40" class="bg-white rounded-circle p-1 shadow-sm" />
+                    <span>KOU <span class="fw-light">| Staj Evrak Yönetim Sistemi</span></span>
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav ms-auto align-items-center gap-2">
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Home" asp-action="Index">Ana Sayfa / Giriş</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-box-arrow-in-right me-1"></i> Giriş / Panel
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-light" asp-controller="Home" asp-action="Privacy">Staj Kuralları & KVKK</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">
+                                <i class="bi bi-shield-check me-1"></i> Staj Kuralları & KVKK
+                            </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-4">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted mt-5 py-3">
-        <div class="container text-center">
-            &copy; 2026 - Yazılım Mühendisliği Staj Evrak Yönetim Sistemi | <a asp-controller="Home" asp-action="Privacy">Staj Kuralları & KVKK</a>
+    <footer class="footer-kou mt-auto py-3">
+        <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center small">
+            <span>&copy;2026 Kocaeli Üniversitesi - Öğrenci Staj Otomasyonu</span>
+            <a class="text-decoration-none text-success fw-semibold" asp-controller="Home" asp-action="Privacy">
+                Staj Yönetmeliği & KVKK Aydınlatma Metni
+            </a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
