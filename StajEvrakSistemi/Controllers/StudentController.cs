@@ -86,18 +86,22 @@ namespace StajYonetimSistemi.Controllers
             // Yazdığımız tüm doğrulama kurallarını (TC, Adres, 30 gün, İş günü) çalıştırıyoruz
             var validationErrors = DocumentValidator.ValidateAll(newDoc, student!, publicHolidays, requiredDays: 20);
 
-            _context.InternshipDocuments.Add(newDoc);
-            _context.SaveChanges();
+          
 
             if (validationErrors.Count > 0)
             {
+                newDoc.Status = DocumentStatus.Reddedildi;
                 TempData["Errors"] = string.Join(" | ", validationErrors);
             }
             else
             {
+                newDoc.Status = DocumentStatus.Beklemede;
                 TempData["Success"] = "Staj evrakınız tüm doğrulama kurallarından geçti ve onaylandı!";
             }
 
+              _context.InternshipDocuments.Add(newDoc);
+              _context.SaveChanges();
+            
             return RedirectToAction("Index");
         }
     }
