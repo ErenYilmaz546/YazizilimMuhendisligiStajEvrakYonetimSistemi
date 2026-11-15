@@ -1,0 +1,102 @@
+@model List<StajYonetimSistemi.Models.InternshipDocument>
+@{
+    ViewData["Title"] = "Öğrenci Paneli";
+    var student = ViewBag.StudentInfo as StajYonetimSistemi.Models.StudentDataset;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Öğrenci Staj Paneli</h3>
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger btn-sm">Çıkış Yap</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Errors"] != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Doğrulama Hataları:</strong> @TempData["Errors"]
+        </div>
+    }
+
+    @if (student != null)
+    {
+        <div class="card mb-4">
+            <div class="card-header bg-secondary text-white">Öğrenci Veri Seti Bilgileri</div>
+            <div class="card-body row">
+                <div class="col-md-6">
+                    <p><strong>Ad Soyad:</strong> @student.AdSoyad</p>
+                    <p><strong>Öğrenci No:</strong> @student.OgrenciNo</p>
+                    <p><strong>TC / Kimlik No:</strong> @student.TcKimlikNo (@student.Uyruk)</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Bölüm:</strong> @student.Bolum</p>
+                    <p><strong>İkametgah:</strong> @student.IkametgahAdresi</p>
+                    <p><strong>Sağlık Yardımı:</strong> @student.SaglikYardimiStatusu</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">Yeni Staj Evrakı Yükle ve Doğrula</div>
+        <div class="card-body">
+            <form asp-controller="Student" asp-action="UploadDocument" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Staj Başlangıç Tarihi</label>
+                        <input type="date" name="startDate" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Staj Bitiş Tarihi</label>
+                        <input type="date" name="endDate" class="form-control" required />
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">Staj Belgesi (PDF/Word)</label>
+                        <input type="file" name="documentFile" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="workSaturday" value="true" id="satCheck">
+                    <label class="form-check-label" for="satCheck">
+                        Cumartesi günleri çalışılıyor (İş günü hesabına dahil et)
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary">Evrakı Yükle ve Kuralları Denetle</button>
+            </form>
+        </div>
+    </div>
+
+    <h5>Geçmiş Başvurularım</h5>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Dosya</th>
+                <th>Başlangıç</th>
+                <th>Bitiş</th>
+                <th>Teslim Tarihi</th>
+                <th>Durum</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doc in Model)
+            {
+                <tr>
+                    <td>@doc.Id</td>
+                    <td>@doc.FilePath</td>
+                    <td>@doc.StartDate.ToShortDateString()</td>
+                    <td>@doc.EndDate.ToShortDateString()</td>
+                    <td>@doc.SubmissionDate.ToShortDateString()</td>
+                    <td>
+                        <span class="badge @(doc.Status.ToString() == "Onaylandi" ? "bg-success" : doc.Status.ToString() == "Reddedildi" ? "bg-danger" : "bg-warning")">
+                            @doc.Status
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

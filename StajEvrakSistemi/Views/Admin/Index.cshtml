@@ -1,0 +1,54 @@
+@model List<StajYonetimSistemi.Models.InternshipDocument>
+@{
+    ViewData["Title"] = "Komisyon (Admin) Paneli";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Staj Komisyonu Yönetim Paneli</h3>
+        <a asp-controller="Account" asp-action="Logout" class="btn btn-outline-danger btn-sm">Çıkış Yap</a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">Yüklenen Tüm Staj Evrakları</div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Öğrenci E-Posta</th>
+                        <th>Dosya Adı</th>
+                        <th>Staj Tarihleri</th>
+                        <th>Teslim Tarihi</th>
+                        <th>Mevcut Durum</th>
+                        <th>Komisyon Kararı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var doc in Model)
+                    {
+                        <tr>
+                            <td>@doc.Id</td>
+                            <td>@doc.StudentEmail</td>
+                            <td>@doc.FilePath</td>
+                            <td>@doc.StartDate.ToShortDateString() - @doc.EndDate.ToShortDateString()</td>
+                            <td>@doc.SubmissionDate.ToShortDateString()</td>
+                            <td>
+                                <span class="badge @(doc.Status.ToString() == "Onaylandi" ? "bg-success" : doc.Status.ToString() == "Reddedildi" ? "bg-danger" : "bg-warning")">
+                                    @doc.Status
+                                </span>
+                            </td>
+                            <td>
+                                <form asp-controller="Admin" asp-action="UpdateStatus" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@doc.Id" />
+                                    <button type="submit" name="status" value="Onaylandi" class="btn btn-success btn-sm">Onayla</button>
+                                    <button type="submit" name="status" value="Reddedildi" class="btn btn-danger btn-sm">Reddet</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
