@@ -23,7 +23,7 @@ namespace StajYonetimSistemi.Controllers
             var email = HttpContext.Session.GetString("UserEmail");
             if (string.IsNullOrEmpty(email))
             {
-                return RedirectToAction("Login", "Account");
+                return StatusCode(401, "401 Unauthorized - Bu sayfaya erişim için öğrenci girişi yapmalısınız.");
             }
 
             var studentInfo = _context.StudentDatasets.FirstOrDefault(s => s.Eposta == email);
@@ -41,8 +41,8 @@ namespace StajYonetimSistemi.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-
-            var student = _context.StudentDatasets.FirstOrDefault(s => s.Eposta == email);
+              var student = _context.StudentDatasets.FirstOrDefault(s => s.Eposta == email);
+            if (student == null) return NotFound("404 Not Found - Öğrenci veri seti kaydı bulunamadı.");
             string savedFilePath = "ornek_staj_evraki.pdf";
 
             if (documentFile != null && documentFile.Length > 0)
@@ -96,7 +96,7 @@ namespace StajYonetimSistemi.Controllers
             else
             {
                 newDoc.Status = DocumentStatus.Beklemede;
-                TempData["Success"] = "Staj evrakınız tüm doğrulama kurallarından geçti ve onaylandı!";
+                TempData["Success"] = "Staj evrakınız tüm doğrulama kurallarından geçti ve komisyon onayına gönderildi.";
             }
 
               _context.InternshipDocuments.Add(newDoc);

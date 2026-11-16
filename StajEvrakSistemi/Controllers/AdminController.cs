@@ -20,7 +20,7 @@ namespace StajYonetimSistemi.Controllers
             var role = HttpContext.Session.GetString("UserRole");
             if (role != "Admin")
             {
-                return RedirectToAction("Login", "Account");
+                return StatusCode(401, "401 Unauthorized - Komisyon paneline erişim yetkiniz bulunmamaktadır.");
             }
 
             var allDocuments = _context.InternshipDocuments.ToList();
@@ -37,7 +37,10 @@ namespace StajYonetimSistemi.Controllers
             {
                 doc.Status = status;
                 _context.SaveChanges();
-            }
+            }else
+{
+    return NotFound("404 Not Found - İşlem yapılacak staj evrakı bulunamadı.");
+}
             return RedirectToAction("Index");
         }
     }

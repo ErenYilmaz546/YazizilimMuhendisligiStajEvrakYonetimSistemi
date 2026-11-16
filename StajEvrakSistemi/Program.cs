@@ -28,7 +28,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseStatusCodePages("text/plain; charset=utf-8", "HTTP Durum Kodu: {0} - Aradığınız sayfa bulunamadı (404) veya bu sayfaya erişim yetkiniz yok (401).");
 app.UseRouting();
 
 // Oturum (Session) kullanımı aktif ediliyor
